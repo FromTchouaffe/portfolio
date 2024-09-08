@@ -1,0 +1,23 @@
+# Ignorer les environnements virtuels
+venv/
+.venv/
+env/
+.env/
+
+# Fichiers compilés Python
+*.pyc
+*.pyo
+__pycache__/
+
+# Fichiers d'IDE
+.vscode/
+.idea/
+
+# Logs et caches
+*.log
+*.tmp
+*.cache
+
+# Checkpoints Jupyter
+.ipynb_checkpoints/
+
