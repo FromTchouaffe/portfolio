@@ -112,8 +112,7 @@ def show_home_page():
 
     with col1:
         # Ajout de la photo à gauche
-
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/PhotoModifié.png", width=250)", width=250
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/PhotoModifié.png", width=250)
         # Affichage du prénom, nom (sur une seule ligne), titre et contact sous la photo
         st.markdown("<h2 style='text-align: center; font-size: 24px;'>Christian Tchouaffé</h2>", unsafe_allow_html=True)
         st.markdown("<h4 style='text-align: center;'>Data Analyst</h4>", unsafe_allow_html=True)
@@ -675,9 +674,7 @@ elif page == "Apprentissage profond":
         """, unsafe_allow_html=True)
 
         # Insertion de l'image avec une légende
-
-        
-st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/IALandscape.png")
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/IALandscape.png", 
             caption="Les LLMs dans le paysage de l'IA", 
             use_column_width=600)
 
