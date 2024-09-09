@@ -14,8 +14,18 @@ st.set_page_config(page_title="Mon Portfolio", page_icon=":briefcase:", layout="
 
 # Fonction pour charger et encoder les données
 @st.cache_data
-def load_and_encode_data(file_path):
-    data = pd.read_csv(file_path)
+def load_and_encode_data(file_path=None):
+    # Lien vers le fichier CSV brut (raw) sur GitHub
+    url = "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv"
+    
+    # Lecture du fichier CSV depuis l'URL
+    data = pd.read_csv(url, sep=",")
+    
+    # Affiche les colonnes disponibles
+   # st.write("Colonnes disponibles :", data.columns)
+    
+    return data
+
     label_encoder = LabelEncoder()
     
     # Encodage des colonnes catégorielles
@@ -68,12 +78,12 @@ def train_model(X_train, y_train, X_test, y_test):
 def display_logos():
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     logo_paths = [
-        "/Users/christiantchouaffe/Desktop/MonPortfolio/Matplotlib.png",
-        "/Users/christiantchouaffe/Desktop/MonPortfolio/Numpy.png",
-        "/Users/christiantchouaffe/Desktop/MonPortfolio/Pandas.png",
-        "/Users/christiantchouaffe/Desktop/MonPortfolio/Plotly.png",
-        "/Users/christiantchouaffe/Desktop/MonPortfolio/seaborn.png",
-        "/Users/christiantchouaffe/Desktop/MonPortfolio/Sklearn.png"
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Matplotlib.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Numpy.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Pandas.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Plotly.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/seaborn.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Sklearn.png"
     ]
     
     for col, logo in zip([col1, col2, col3, col4, col5, col6], logo_paths):
@@ -86,7 +96,7 @@ def show_home_page():
 
     with col1:
         # Ajout de la photo à gauche
-        st.image("/Users/christiantchouaffe/Desktop/MonPortfolio/PhotoModifié.png", width=250)
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/PhotoModifié.png", width=250)
         # Affichage du prénom, nom (sur une seule ligne), titre et contact sous la photo
         st.markdown("<h2 style='text-align: center; font-size: 24px;'>Christian Tchouaffé</h2>", unsafe_allow_html=True)
         st.markdown("<h4 style='text-align: center;'>Data Analyst</h4>", unsafe_allow_html=True)
@@ -300,7 +310,7 @@ elif page == "Apprentissage non supervisé":
     # Ajout du paragraphe Cas d'usage
     st.write("**Cas d'usage :** Identification des patterns dans l'écosystème de la recherche en Suisse à travers la création de clusters basés sur un jeu de données. (source du jeu données : zenodo.org)")  
     # Chargement du jeu de données spécifique à l'apprentissage non supervisé
-    research_final = pd.read_csv('/Users/christiantchouaffe/Desktop/MonPortfolio/research_final.csv', sep=';')
+    research_final = pd.read_csv('https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/research_final.csv', sep=';')
 
     # Menu déroulant pour sélectionner la sous-partie
     section_unsupervised = st.selectbox("Sélectionnez une section", 
@@ -648,7 +658,7 @@ elif page == "Apprentissage profond":
         """, unsafe_allow_html=True)
 
         # Insertion de l'image avec une légende
-        st.image("/Users/christiantchouaffe/Desktop/Datascientest/Streamlit_Prêt_Bancaire/Portfolio/IALandscape.png", 
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/IALandscape.png", 
             caption="Les LLMs dans le paysage de l'IA", 
             use_column_width=600)
 
