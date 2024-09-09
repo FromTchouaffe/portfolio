@@ -14,17 +14,14 @@ st.set_page_config(page_title="Mon Portfolio", page_icon=":briefcase:", layout="
 
 # Fonction pour charger et encoder les données
 @st.cache_data
-def load_and_encode_data(file_path=None):
-    # Lien vers le fichier CSV brut (raw) sur GitHub
+def load_and_encode_data(file_path):
+   # Lien vers le fichier CSV brut (raw) sur GitHub
     url = "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv"
-    
     # Lecture du fichier CSV depuis l'URL
-    data = pd.read_csv(url, sep=",")
-    
-    # Affiche les colonnes disponibles
-   # st.write("Colonnes disponibles :", data.columns)
-    
-    return data
+    data = pd.read_csv(url)
+
+    #st.write(data.columns)
+    #st.write(data.head())
 
     label_encoder = LabelEncoder()
     
@@ -33,8 +30,15 @@ def load_and_encode_data(file_path=None):
     data['politique_de_credit'] = label_encoder.fit_transform(data['politique_de_credit'])
     
     return data
+    
+    
+    # Encodage des colonnes catégorielles
+    data['objet__du_pret'] = label_encoder.fit_transform(data['objet__du_pret'])
+    data['politique_de_credit'] = label_encoder.fit_transform(data['politique_de_credit'])
+    
+    return data
 
-# Fonction pour préparer les données d'entraînement et de test
+#Fonction pour préparer les données d'entraînement et de test
 @st.cache_data
 def prepare_data(data):
     X = data.drop(columns=['pret_non_remboursé'])
@@ -290,7 +294,7 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
 
 
 # Charger les données
-data = load_and_encode_data("/Users/christiantchouaffe/Desktop/MonPortfolio/loan_data_final.csv")
+data = load_and_encode_data('https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv')
 
 # Préparer les données
 X_train_balanced, X_test, y_train_balanced, y_test = prepare_data(data)
