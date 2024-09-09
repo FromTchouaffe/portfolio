@@ -14,14 +14,26 @@ st.set_page_config(page_title="Mon Portfolio", page_icon=":briefcase:", layout="
 
 # Fonction pour charger et encoder les données
 @st.cache_data
+
 def load_and_encode_data(file_path):
    # Lien vers le fichier CSV brut (raw) sur GitHub
     url = "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv"
     # Lecture du fichier CSV depuis l'URL
     data = pd.read_csv(url)
 
-    #st.write(data.columns)
-    #st.write(data.head())
+ 
+def load_and_encode_data(file_path=None):
+    # Lien vers le fichier CSV brut (raw) sur GitHub
+    url = "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv"
+    
+    # Lecture du fichier CSV depuis l'URL
+    data = pd.read_csv(url, sep=",")
+    
+    # Affiche les colonnes disponibles
+   # st.write("Colonnes disponibles :", data.columns)
+    
+    return data
+ c5c179f (Mise à jour des liens des images dans portfolioB.py)
 
     label_encoder = LabelEncoder()
     
@@ -100,7 +112,8 @@ def show_home_page():
 
     with col1:
         # Ajout de la photo à gauche
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/PhotoModifié.png", width=250)
+
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/PhotoModifié.png", width=250)", width=250
         # Affichage du prénom, nom (sur une seule ligne), titre et contact sous la photo
         st.markdown("<h2 style='text-align: center; font-size: 24px;'>Christian Tchouaffé</h2>", unsafe_allow_html=True)
         st.markdown("<h4 style='text-align: center;'>Data Analyst</h4>", unsafe_allow_html=True)
@@ -662,7 +675,9 @@ elif page == "Apprentissage profond":
         """, unsafe_allow_html=True)
 
         # Insertion de l'image avec une légende
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/IALandscape.png", 
+
+        
+st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/IALandscape.png")
             caption="Les LLMs dans le paysage de l'IA", 
             use_column_width=600)
 
