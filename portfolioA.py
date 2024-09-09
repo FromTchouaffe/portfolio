@@ -703,7 +703,6 @@ elif page == "Apprentissage profond":
         st.markdown("### Modèles de fondation")
         st.table(df)
 
-    # Bloc "Cas d'usage" pour le chatbot
     elif section_deep_learning == "Cas d'usage":
         st.header("Chatbot pour la Suite Office")
         st.write("""
@@ -721,40 +720,45 @@ elif page == "Apprentissage profond":
         from langchain.llms import OpenAI
         import pandas as pd
 
-        # Clé API OpenAI (Remplacer par la clé API valide)
-        openai_api_key = os.getenv("MY_API_KEY")  # Remplace par ta clé API OpenAI valide
+    # Clé API OpenAI (Remplacer par la clé API valide)
+    openai_api_key = os.getenv("MY_API_KEY")  # Remplace par ta clé API OpenAI valide
 
-        if not openai_api_key:
-            st.error("Clé API OpenAI introuvable. Veuillez la définir.")
-        else:
-            # Charger la chaîne OpenAI
-            llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
-            chain = ConversationChain(llm=llm)
+    if not openai_api_key:
+        st.error("Clé API OpenAI introuvable. Veuillez la définir.")
+    else:
+        # Charger la chaîne OpenAI
+        llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+        chain = ConversationChain(llm=llm)
 
-            # Initialisation de l'état de session pour stocker les messages
+        # Initialisation de l'état de session pour stocker les messages
         if "messages" not in st.session_state:
             st.session_state["messages"] = []
 
-            # Fonction pour obtenir l'entrée utilisateur
+        # Fonction pour obtenir l'entrée utilisateur
         def get_text():
-            return st.text_input("Vous : ", "")
+            user_input = st.text_input("Vous : ", "")
+            if user_input.strip() == "":
+                return None
+            return user_input
 
-            # Obtenir l'entrée utilisateur
+        # Obtenir l'entrée utilisateur
         user_input = get_text()
 
         if user_input:
-                # Ajouter le message utilisateur à la session
+            # Ajouter le message utilisateur à la session
             st.session_state["messages"].append({"role": "user", "content": user_input})
             try:
-                    # Générer une réponse avec OpenAI
+                # Générer une réponse avec OpenAI
                 output = chain.run(input=user_input)
                 st.session_state["messages"].append({"role": "bot", "content": output})
             except Exception as e:
                 st.error(f"Erreur lors de la génération de la réponse : {str(e)}")
+                st.stop()
 
-            # Afficher les messages dans le chat avec des clés uniques pour chaque message
+        # Afficher les messages dans le chat avec des clés uniques pour chaque message
         for i, msg in enumerate(st.session_state["messages"]):
             if msg["role"] == "user":
                 message(msg["content"], is_user=True, key=f"user_{i}")
             else:
                 message(msg["content"], key=f"bot_{i}")
+
