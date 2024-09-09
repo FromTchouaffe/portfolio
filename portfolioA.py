@@ -719,6 +719,7 @@ elif page == "Apprentissage profond":
         from langchain.chains import ConversationChain
         from langchain.llms import OpenAI
 
+
         # Clé API OpenAI (Remplacer par la clé API valide)
         openai_api_key = os.getenv("MY_API_KEY")
 
