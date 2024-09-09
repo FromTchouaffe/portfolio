@@ -16,7 +16,7 @@ st.set_page_config(page_title="Mon Portfolio", page_icon=":briefcase:", layout="
 @st.cache_data
 def load_and_encode_data(file_path):
    # Lien vers le fichier CSV brut (raw) sur GitHub
-    url = "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv"
+    url = "https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/loan_data_final.csv"
     # Lecture du fichier CSV depuis l'URL
     data = pd.read_csv(url)
     label_encoder = LabelEncoder()
@@ -79,12 +79,12 @@ def train_model(X_train, y_train, X_test, y_test):
 def display_logos():
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     logo_paths = [
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Matplotlib.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Numpy.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Pandas.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Plotly.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/seaborn.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Sklearn.png"
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/Matplotlib.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/Numpy.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/Pandas.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/Plotly.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/seaborn.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/Sklearn.png"
     ]
     
     for col, logo in zip([col1, col2, col3, col4, col5, col6], logo_paths):
@@ -97,7 +97,7 @@ def show_home_page():
 
     with col1:
         # Ajout de la photo à gauche
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/PhotoModifié.png", width=250)
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/PhotoModifié.png", width=250)
         # Affichage du prénom, nom (sur une seule ligne), titre et contact sous la photo
         st.markdown("<h2 style='text-align: center; font-size: 24px;'>Christian Tchouaffé</h2>", unsafe_allow_html=True)
         st.markdown("<h4 style='text-align: center;'>Data Analyst</h4>", unsafe_allow_html=True)
@@ -291,7 +291,7 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
 
 
 # Charger les données
-data = load_and_encode_data('https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv')
+data = load_and_encode_data('https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/loan_data_final.csv')
 
 # Préparer les données
 X_train_balanced, X_test, y_train_balanced, y_test = prepare_data(data)
@@ -311,7 +311,7 @@ elif page == "Apprentissage non supervisé":
     # Ajout du paragraphe Cas d'usage
     st.write("**Cas d'usage :** Identification des patterns dans l'écosystème de la recherche en Suisse à travers la création de clusters basés sur un jeu de données. (source du jeu données : zenodo.org)")  
     # Chargement du jeu de données spécifique à l'apprentissage non supervisé
-    research_final = pd.read_csv('https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/research_final.csv', sep=';')
+    research_final = pd.read_csv('https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/research_final.csv', sep=';')
 
     # Menu déroulant pour sélectionner la sous-partie
     section_unsupervised = st.selectbox("Sélectionnez une section", 
@@ -659,7 +659,7 @@ elif page == "Apprentissage profond":
         """, unsafe_allow_html=True)
 
         # Insertion de l'image avec une légende
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/IALandscape.png", 
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/IALandscape.png", 
             caption="Les LLMs dans le paysage de l'IA", 
             use_column_width=600)
 
@@ -722,7 +722,7 @@ elif page == "Apprentissage profond":
         import pandas as pd
 
         # Clé API OpenAI (Remplacer par la clé API valide)
-        openai_api_key = os.getenv("")  # Remplace par ta clé API OpenAI valide
+        openai_api_key = os.getenv("MY_API_KEY")  # Remplace par ta clé API OpenAI valide
 
         if not openai_api_key:
             st.error("Clé API OpenAI introuvable. Veuillez la définir.")
