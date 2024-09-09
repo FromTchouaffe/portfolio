@@ -663,7 +663,7 @@ elif page == "Cas d'usage":
     st.header("Chatbot pour la Suite Office")
 
     # Clé API OpenAI (Remplace par ta clé API valide)
-    #openai_api_key = "ta_cle_api_exacte"  # Remplace par ta clé API OpenAI valide
+    openai_api_key = "ta_cle_api_exacte"  # Remplace par ta clé API OpenAI valide
 
     if not openai_api_key:
         st.error("Clé API OpenAI introuvable. Veuillez la définir.")

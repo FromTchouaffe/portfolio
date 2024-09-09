@@ -722,7 +722,7 @@ elif page == "Apprentissage profond":
         import pandas as pd
 
         # Clé API OpenAI (Remplacer par la clé API valide)
-        #openai_api_key = os.getenv("")  # Remplace par ta clé API OpenAI valide
+        openai_api_key = os.getenv("")  # Remplace par ta clé API OpenAI valide
 
         if not openai_api_key:
             st.error("Clé API OpenAI introuvable. Veuillez la définir.")
