@@ -14,27 +14,8 @@ st.set_page_config(page_title="Mon Portfolio", page_icon=":briefcase:", layout="
 
 # Fonction pour charger et encoder les données
 @st.cache_data
-
 def load_and_encode_data(file_path):
-   # Lien vers le fichier CSV brut (raw) sur GitHub
-    url = "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv"
-    # Lecture du fichier CSV depuis l'URL
-    data = pd.read_csv(url)
-
- 
-def load_and_encode_data(file_path=None):
-    # Lien vers le fichier CSV brut (raw) sur GitHub
-    url = "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv"
-    
-    # Lecture du fichier CSV depuis l'URL
-    data = pd.read_csv(url, sep=",")
-    
-    # Affiche les colonnes disponibles
-   # st.write("Colonnes disponibles :", data.columns)
-    
-    return data
- c5c179f (Mise à jour des liens des images dans portfolioB.py)
-
+    data = pd.read_csv(file_path)
     label_encoder = LabelEncoder()
     
     # Encodage des colonnes catégorielles
@@ -42,15 +23,8 @@ def load_and_encode_data(file_path=None):
     data['politique_de_credit'] = label_encoder.fit_transform(data['politique_de_credit'])
     
     return data
-    
-    
-    # Encodage des colonnes catégorielles
-    data['objet__du_pret'] = label_encoder.fit_transform(data['objet__du_pret'])
-    data['politique_de_credit'] = label_encoder.fit_transform(data['politique_de_credit'])
-    
-    return data
 
-#Fonction pour préparer les données d'entraînement et de test
+# Fonction pour préparer les données d'entraînement et de test
 @st.cache_data
 def prepare_data(data):
     X = data.drop(columns=['pret_non_remboursé'])
@@ -94,12 +68,12 @@ def train_model(X_train, y_train, X_test, y_test):
 def display_logos():
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     logo_paths = [
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Matplotlib.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Numpy.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Pandas.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Plotly.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/seaborn.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Sklearn.png"
+        "/Users/christiantchouaffe/Desktop/MonPortfolio/Matplotlib.png",
+        "/Users/christiantchouaffe/Desktop/MonPortfolio/Numpy.png",
+        "/Users/christiantchouaffe/Desktop/MonPortfolio/Pandas.png",
+        "/Users/christiantchouaffe/Desktop/MonPortfolio/Plotly.png",
+        "/Users/christiantchouaffe/Desktop/MonPortfolio/seaborn.png",
+        "/Users/christiantchouaffe/Desktop/MonPortfolio/Sklearn.png"
     ]
     
     for col, logo in zip([col1, col2, col3, col4, col5, col6], logo_paths):
@@ -112,7 +86,7 @@ def show_home_page():
 
     with col1:
         # Ajout de la photo à gauche
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/PhotoModifié.png", width=250)
+        st.image("/Users/christiantchouaffe/Desktop/MonPortfolio/PhotoModifié.png", width=250)
         # Affichage du prénom, nom (sur une seule ligne), titre et contact sous la photo
         st.markdown("<h2 style='text-align: center; font-size: 24px;'>Christian Tchouaffé</h2>", unsafe_allow_html=True)
         st.markdown("<h4 style='text-align: center;'>Data Analyst</h4>", unsafe_allow_html=True)
@@ -306,7 +280,7 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
 
 
 # Charger les données
-data = load_and_encode_data('https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/loan_data_final.csv')
+data = load_and_encode_data("/Users/christiantchouaffe/Desktop/MonPortfolio/loan_data_final.csv")
 
 # Préparer les données
 X_train_balanced, X_test, y_train_balanced, y_test = prepare_data(data)
@@ -326,7 +300,7 @@ elif page == "Apprentissage non supervisé":
     # Ajout du paragraphe Cas d'usage
     st.write("**Cas d'usage :** Identification des patterns dans l'écosystème de la recherche en Suisse à travers la création de clusters basés sur un jeu de données. (source du jeu données : zenodo.org)")  
     # Chargement du jeu de données spécifique à l'apprentissage non supervisé
-    research_final = pd.read_csv('https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/research_final.csv', sep=';')
+    research_final = pd.read_csv('/Users/christiantchouaffe/Desktop/MonPortfolio/research_final.csv', sep=';')
 
     # Menu déroulant pour sélectionner la sous-partie
     section_unsupervised = st.selectbox("Sélectionnez une section", 
@@ -626,16 +600,29 @@ elif page == "Apprentissage non supervisé":
         </div>
         """, unsafe_allow_html=True)
 
+import os
+import streamlit as st
+from streamlit_chat import message
+from langchain.chains import ConversationChain
+from langchain.llms import OpenAI
+import pandas as pd
 
+# Appelle set_page_config en tout début du script
+st.set_page_config(page_title="Chatbot Suite Office", page_icon=":robot:")
+
+# Bloc principal du code
+
+# Menu déroulant pour choisir la section
+page = st.sidebar.radio("Navigation", ["Apprentissage profond", "Cas d'usage"])
 
 # Bloc "Apprentissage profond"
-elif page == "Apprentissage profond":
+if page == "Apprentissage profond":
     st.title("Big Data et Intelligence Artificielle")
 
     # Menu déroulant pour les sections d'apprentissage profond
     section_deep_learning = st.selectbox(
-    "Sélectionnez une section", 
-    ["Contexte et enjeux", "Les Large Language Models", "Cas d'usage"]
+        "Sélectionnez une section", 
+        ["Contexte et enjeux", "Les Large Language Models", "Cas d'usage"]
     )
 
     # Section "Contexte et enjeux"
@@ -644,132 +631,74 @@ elif page == "Apprentissage profond":
         st.markdown("""
             <div style="text-align: justify;">
             Dans ce portfolio, j'ai exploré deux axes fondamentaux du machine learning : l'apprentissage supervisé 
-            et l'apprentissage non supervisé. L'apprentissage par renforcement n'a pas été abordé, en raison des ressources 
-            et des volumes de données significativement plus élevés qu'il requiert pour une implémentation robuste.
-
-            Deux modèles ont été développés, chacun basé sur des algorithmes adaptés à des problématiques spécifiques :
-        
-            - **RandomForestClassifier** : utilisé pour prédire la probabilité de remboursement d'un prêt.
-            - **KMeans** : destiné à segmenter les chercheurs en catégories pertinentes dans le cadre d'une étude de positionnement au sein de l'écosystème de la recherche en Suisse.
-
-            Ce portfolio illustre le processus d'entraînement des modèles, qui, une fois affinés, seront intégrés dans des 
-            applications d'aide à la décision. Le modèle de classification permettra de déterminer l'éligibilité des clients 
-            à un prêt, tandis que l'algorithme de clustering contribuera à optimiser l'intégration des chercheurs en fonction 
-            de leur profil et de leur domaine.
-            
-            L’actualité récente, avec l’arrivée de ChatGPT, a mis en lumière le deep learning, reposant sur des architectures de réseaux de neurones complexes. Contrairement aux algorithmes classiques comme les Random Forests ou les Decision Trees, souvent interprétables ("white box"), les modèles de deep learning (CNN, RNN, Transformers) sont des "black box" en raison de leur complexité et de leur opacité, ce qui les distingue de l’apprentissage supervisé exploré dans ce portfolio.
+            et l'apprentissage non supervisé...
             </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
     # Section "Les Large Language Models"
     elif section_deep_learning == "Les Large Language Models":
         st.header("Les Large Language Models")
         st.markdown("""
             <div style="text-align: justify;">
-            Les algorithmes de deep learning ont connu un essor remarquable avec l'avènement des Large Language Models (LLMs), 
-            qui ont révolutionné les techniques de traitement du langage naturel (NLP). Ces modèles ont non seulement établi 
-            de nouveaux standards dans diverses tâches liées au langage, mais ils ont également surpassé leurs prédécesseurs 
-            en ouvrant la voie à des avancées sans précédent dans l'IA.
+            Les algorithmes de deep learning ont connu un essor remarquable...
             </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
-        # Insertion de l'image avec une légende
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/IALandscape.png", 
-            caption="Les LLMs dans le paysage de l'IA", 
-            use_column_width=600)
+        # Insertion de l'image avec légende
+        st.image("/Users/christiantchouaffe/Desktop/Datascientest/Streamlit_Prêt_Bancaire/Portfolio/IALandscape.png", 
+                 caption="Les LLMs dans le paysage de l'IA", use_column_width=600)
 
-        st.markdown("""
-            <div style="text-align: justify;">
-            Le qualificatif de "large" ou "grand" pour les LLMs fait référence à l'énorme quantité de données d'entraînement 
-            et de ressources nécessaires à leur fonctionnement. Le terme "modèles" souligne leur capacité à apprendre des 
-            motifs complexes à partir des données. Dans le cas des LLMs, ces données proviennent principalement de vastes 
-            corpus textuels issus d'internet.
-
-            Ces modèles sont également qualifiés de multimodaux car ils sont capables de traiter et de générer des informations 
-            à partir de divers types de données, tels que le texte, l'audio, la vidéo, et les images. Cela les différencie des 
-            modèles non multimodaux, qui ne fonctionnent qu'avec un seul type de données, généralement du texte.
-            </div>
-        """, unsafe_allow_html=True)
-
-        # Création des données sous forme de dictionnaire
-        data = {
-            "Marque": ["Microsoft", "Google", "Google", "Meta (Facebook)", "Meta (Facebook)"],
-            "Modèle de Fondation": ["GPT-3", "BERT", "T5", "RoBERTa / BlenderBot", "LLaMA"],
-            "Modèle Fine-tuné": [
-                "Codex pour la génération de code", 
-                "InstructBERT (pour la compréhension des instructions)", 
-                "T5 fine-tuné pour des tâches spécifiques comme la traduction ou le résumé de texte", 
-                "BlenderBot (tuné pour des conversations humaines)", 
-                "LLaMA fine-tuné pour des tâches de génération de texte spécifiques"
-            ],
-            "Motif": [
-                "Génération de code", 
-                "Compréhension des instructions", 
-                "Traduction ou résumé de texte", 
-                "Conversations humaines", 
-                "Génération de texte"
-            ]
-        }
-
-        # Création du DataFrame à partir des données
-        df = pd.DataFrame(data)
-
-        # Affichage du tableau dans Streamlit avec légende
-        st.markdown("### Modèles de fondation")
-        st.table(df)
-
-    # Bloc "Cas d'usage" pour le chatbot
+    # Section "Cas d'usage"
     elif section_deep_learning == "Cas d'usage":
-        st.header("Chatbot pour la Suite Office")
+        st.header("Cas d'usage")
         st.write("""
             <div style="text-align: justify;">
-            Cet assistant est conçu pour aidre les utilisateurs des logiciels de la suite Microsoft Office. 
-            En exploitant les capacités des modèles de langage, elle permet de répondre en temps réel à des questions techniques spécifiques concernant les outils tels que Word, Excel ou PowerPoint.
-            Ce chatbot offre une aide personnalisée et un guidage pas-à-pas pour optimiser l'efficacité des utilisateurs dans leurs tâches quotidiennes.
+            Cette application est un chatbot dédié à accompagner les utilisateurs dans l'utilisation des logiciels de la suite Office, 
+            notamment Excel, Word, et PowerPoint...
             </div>
-        """, unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
 
-        import os
-        import streamlit as st
-        from streamlit_chat import message
-        from langchain.chains import ConversationChain
-        from langchain.llms import OpenAI
-        import pandas as pd
+# Bloc "Cas d'usage" pour le chatbot
+elif page == "Cas d'usage":
+    st.header("Chatbot pour la Suite Office")
 
-        # Clé API OpenAI (Remplacer par la clé API valide)
-        openai_api_key = os.getenv("OPENAI_API_KEY")  # Remplace par ta clé API OpenAI valide
+    # Clé API OpenAI (Remplace par ta clé API valide)
+    openai_api_key = "ta_cle_api_exacte"  # Remplace par ta clé API OpenAI valide
 
-        if not openai_api_key:
-            st.error("Clé API OpenAI introuvable. Veuillez la définir.")
-        else:
-            # Charger la chaîne OpenAI
-            llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
-            chain = ConversationChain(llm=llm)
+    if not openai_api_key:
+        st.error("Clé API OpenAI introuvable. Veuillez la définir.")
+    else:
+        # Charger la chaîne OpenAI
+        llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+        chain = ConversationChain(llm=llm)
 
-            # Initialisation de l'état de session pour stocker les messages
+        # Initialisation de l'état de session pour stocker les messages
         if "messages" not in st.session_state:
             st.session_state["messages"] = []
 
-            # Fonction pour obtenir l'entrée utilisateur
+        # Fonction pour obtenir l'entrée utilisateur
         def get_text():
             return st.text_input("Vous : ", "")
 
-            # Obtenir l'entrée utilisateur
+        # Obtenir l'entrée utilisateur
         user_input = get_text()
 
         if user_input:
-                # Ajouter le message utilisateur à la session
+            # Ajouter le message utilisateur
             st.session_state["messages"].append({"role": "user", "content": user_input})
             try:
-                    # Générer une réponse avec OpenAI
+                # Générer une réponse avec OpenAI
                 output = chain.run(input=user_input)
                 st.session_state["messages"].append({"role": "bot", "content": output})
             except Exception as e:
                 st.error(f"Erreur lors de la génération de la réponse : {str(e)}")
 
-            # Afficher les messages dans le chat avec des clés uniques pour chaque message
+        # Afficher les messages dans le chat avec des clés uniques
         for i, msg in enumerate(st.session_state["messages"]):
             if msg["role"] == "user":
                 message(msg["content"], is_user=True, key=f"user_{i}")
             else:
                 message(msg["content"], key=f"bot_{i}")
+
+
+
