@@ -718,48 +718,47 @@ elif page == "Apprentissage profond":
         from streamlit_chat import message
         from langchain.chains import ConversationChain
         from langchain.llms import OpenAI
-        import pandas as pd
 
     # Clé API OpenAI (Remplacer par la clé API valide)
-    openai_api_key = os.getenv("MY_API_KEY")  # Remplace par ta clé API OpenAI valide
+        openai_api_key = os.getenv("MY_API_KEY")  # Remplace par ta clé API OpenAI valide
 
-    if not openai_api_key:
-        st.error("Clé API OpenAI introuvable. Veuillez la définir.")
-    else:
-        # Charger la chaîne OpenAI
-        llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
-        chain = ConversationChain(llm=llm)
+        if not openai_api_key:
+            st.error("Clé API OpenAI introuvable. Veuillez la définir.")
+        else:
+    # Charger la chaîne OpenAI
+            llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+            chain = ConversationChain(llm=llm)
 
-        # Initialisation de l'état de session pour stocker les messages
-        if "messages" not in st.session_state:
-            st.session_state["messages"] = []
+    # Initialisation de l'état de session pour stocker les messages
+            if "messages" not in st.session_state:
+                st.session_state["messages"] = []
 
-        # Fonction pour obtenir l'entrée utilisateur
-        def get_text():
-            user_input = st.text_input("Vous : ", "")
-            if user_input.strip() == "":
-                return None
-            return user_input
+    # Fonction pour obtenir l'entrée utilisateur
+            def get_text():
+                user_input = st.text_input("Vous : ", "")
+                if user_input.strip() == "":
+                    return None
+                return user_input
 
-        # Obtenir l'entrée utilisateur
-        user_input = get_text()
+            # Obtenir l'entrée utilisateur
+            user_input = get_text()
 
-        if user_input:
-            # Ajouter le message utilisateur à la session
-            st.session_state["messages"].append({"role": "user", "content": user_input})
-            try:
-                # Générer une réponse avec OpenAI en demandant de répondre en français
-                prompt = f"{user_input}\nRépondez toujours en français."
-                output = chain.run(input=prompt)
-                st.session_state["messages"].append({"role": "bot", "content": output})
-            except Exception as e:
-                st.error(f"Erreur lors de la génération de la réponse : {str(e)}")
-                st.stop()
+            if user_input:
+                # Ajouter le message utilisateur à la session
+                st.session_state["messages"].append({"role": "user", "content": user_input})
+                try:
+                    # Générer une réponse avec OpenAI en demandant de répondre en français
+                    prompt = f"{user_input}\nRépondez toujours en français."
+                    output = chain.run(input=prompt)
+                    # Ajouter la réponse du chatbot à la session
+                    st.session_state["messages"].append({"role": "bot", "content": output})
+                except Exception as e:
+                    st.error(f"Erreur lors de la génération de la réponse : {str(e)}")
+                    st.stop()
 
-        # Afficher les messages dans le chat avec des clés uniques pour chaque message
-        for i, msg in enumerate(st.session_state["messages"]):
-            if msg["role"] == "user":
-                message(msg["content"], is_user=True, key=f"user_{i}")
-            else:
-                message(msg["content"], key=f"bot_{i}")
-
+            # Afficher les messages dans le chat avec des clés uniques pour chaque message
+            for i, msg in enumerate(st.session_state["messages"]):
+                if msg["role"] == "user":
+                    message(msg["content"], is_user=True, key=f"user_{i}")
+                else:
+                    message(msg["content"], key=f"bot_{i}")
