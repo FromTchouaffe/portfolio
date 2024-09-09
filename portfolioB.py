@@ -78,12 +78,12 @@ def train_model(X_train, y_train, X_test, y_test):
 def display_logos():
     col1, col2, col3, col4, col5, col6 = st.columns(6)
     logo_paths = [
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Matplotlib.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Numpy.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Pandas.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Plotly.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/seaborn.png",
-        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/Sklearn.png"
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Matplotlib.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Numpy.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Pandas.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Plotly.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/seaborn.png",
+        "https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/Sklearn.png"
     ]
     
     for col, logo in zip([col1, col2, col3, col4, col5, col6], logo_paths):
@@ -96,7 +96,7 @@ def show_home_page():
 
     with col1:
         # Ajout de la photo à gauche
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/PhotoModifié.png", width=250)
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/PhotoModifié.png", width=250)
         # Affichage du prénom, nom (sur une seule ligne), titre et contact sous la photo
         st.markdown("<h2 style='text-align: center; font-size: 24px;'>Christian Tchouaffé</h2>", unsafe_allow_html=True)
         st.markdown("<h4 style='text-align: center;'>Data Analyst</h4>", unsafe_allow_html=True)
@@ -658,7 +658,7 @@ elif page == "Apprentissage profond":
         """, unsafe_allow_html=True)
 
         # Insertion de l'image avec une légende
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/blob/main/IALandscape.png", 
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio/main/IALandscape.png", 
             caption="Les LLMs dans le paysage de l'IA", 
             use_column_width=600)
 
