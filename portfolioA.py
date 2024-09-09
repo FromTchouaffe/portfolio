@@ -727,7 +727,8 @@ elif page == "Apprentissage profond":
             st.error("Clé API OpenAI introuvable. Veuillez la définir.")
         else:
         # Charger la chaîne OpenAI
-            lm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+            #lm = OpenAI(temperature=0, openai_api_key=openai_api_key)
+            llm = OpenAI(temperature=0, openai_api_key=openai_api_key)
             chain = ConversationChain(llm=llm)
 
         # Initialisation de l'état de session pour stocker les messages
