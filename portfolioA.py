@@ -748,8 +748,9 @@ elif page == "Apprentissage profond":
             # Ajouter le message utilisateur à la session
             st.session_state["messages"].append({"role": "user", "content": user_input})
             try:
-                # Générer une réponse avec OpenAI
-                output = chain.run(input=user_input)
+                # Générer une réponse avec OpenAI en demandant de répondre en français
+                prompt = f"{user_input}\nRépondez toujours en français."
+                output = chain.run(input=prompt)
                 st.session_state["messages"].append({"role": "bot", "content": output})
             except Exception as e:
                 st.error(f"Erreur lors de la génération de la réponse : {str(e)}")
