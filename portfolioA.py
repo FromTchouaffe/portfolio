@@ -14,14 +14,18 @@ from sklearn.metrics import classification_report, confusion_matrix, roc_auc_sco
 st.set_page_config(page_title="Mon Portfolio", page_icon=":briefcase:", layout="centered")
 
 
-# Inject custom CSS to hide the GitHub logo
-hide_github_style = """
+st.markdown("""
     <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
+        .reportview-container {
+            margin-top: -2em;
+        }
+        #MainMenu {visibility: hidden;}
+        .stDeployButton {display:none;}
+        footer {visibility: hidden;}
+        #stDecoration {display:none;}
     </style>
-    """
-st.markdown(hide_github_style, unsafe_allow_html=True)
+""", unsafe_allow_html=True)
+
 
 # Fonction pour charger et encoder les données
 @st.cache_data
