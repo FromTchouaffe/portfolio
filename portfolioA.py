@@ -717,7 +717,7 @@ elif page == "Apprentissage profond":
         import streamlit as st
         from streamlit_chat import message
         from langchain.chains import ConversationChain
-        from langchain.llms import OpenAI
+        from langchain_community.llms import OpenAI  # Utilisation de l'import correct
 
 
         # Clé API OpenAI (Remplacer par la clé API valide)
