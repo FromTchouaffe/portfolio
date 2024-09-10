@@ -720,7 +720,7 @@ elif page == "Apprentissage profond":
         st.header("Chatbot pour la Suite Office")
         st.write("""
             <div style="text-align: justify;">
-            Cet assistant est conçu pour aidre les utilisateurs des logiciels de la suite Microsoft Office. 
+            Cet assistant est conçu pour aider les utilisateurs des logiciels de la suite Microsoft Office. 
             En exploitant les capacités des modèles de langage, elle permet de répondre en temps réel à des questions techniques spécifiques concernant les outils tels que Word, Excel ou PowerPoint.
             Ce chatbot offre une aide personnalisée et un guidage pas-à-pas pour optimiser l'efficacité des utilisateurs dans leurs tâches quotidiennes.
             </div>
