@@ -9,8 +9,19 @@ from sklearn.utils import resample
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, roc_auc_score
 
+
 # Configuration de la page
 st.set_page_config(page_title="Mon Portfolio", page_icon=":briefcase:", layout="centered")
+
+
+# Inject custom CSS to hide the GitHub logo
+hide_github_style = """
+    <style>
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden;}
+    </style>
+    """
+st.markdown(hide_github_style, unsafe_allow_html=True)
 
 # Fonction pour charger et encoder les données
 @st.cache_data
