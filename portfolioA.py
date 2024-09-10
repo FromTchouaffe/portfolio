@@ -14,17 +14,15 @@ from sklearn.metrics import classification_report, confusion_matrix, roc_auc_sco
 st.set_page_config(page_title="Mon Portfolio", page_icon=":briefcase:", layout="centered")
 
 
-st.markdown("""
+# Inject custom CSS to hide the GitHub logo and footer
+hide_streamlit_style = """
     <style>
-        .reportview-container {
-            margin-top: -2em;
-        }
-        #MainMenu {visibility: hidden;}
-        .stDeployButton {display:none;}
-        footer {visibility: hidden;}
-        #stDecoration {display:none;}
+    #MainMenu {visibility: hidden;} /* Cache le menu principal (contenant le logo GitHub) */
+    footer {visibility: hidden;} /* Cache le pied de page */
+    .viewerBadge_container__1QSob {display: none;} /* Cache le logo GitHub Streamlit Cloud */
     </style>
-""", unsafe_allow_html=True)
+"""
+st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 
 # Fonction pour charger et encoder les données
