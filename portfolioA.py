@@ -244,17 +244,9 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
         # Ajouter le commentaire après les graphiques
         st.markdown(
             """
-            **Corrélations positives fortes**
-            - **Mensualité et Taux d'intérêt (0.96)** : les prêts avec des mensualités plus élevées ont généralement des taux d'intérêt plus élevés.
-            - **Dossier public dérogatoire et Incidents de paiement (0.61)** : Les clients ayant des incidents de paiement au cours des 2 dernières années ont également tendance à avoir des dossiers publics dérogatoires.
+            La corrélation la plus importante est fortement négative entre le taux d'intérêt et le score de crédit. Cela signifie que les individus ayant un meilleur score de crédit tendent à obtenir des taux d'intérêt plus bas, ce qui est logique dans le cadre d'une évaluation du risque par les prêteurs. Il n'y a pas d'autres corrélations significatives entre les différentes variables (au-dessus de 0,7 ou en dessous de -0,7), ce qui indique que les variables numériques du jeu de données sont en grande partie indépendantes les unes des autres.
 
-            **Corrélations négatives fortes**
-            - **Score de crédit et Taux d'intérêt (-0.74)** : les clients ayant un score de crédit élevé ont tendance à bénéficier de taux d'intérêt plus bas.
-            - **Score de crédit et Ratio d'endettement (-0.56)** : les clients avec un score de crédit plus élevé ont souvent un ratio d'endettement plus bas.
-
-            Ces corrélations montrent des relations significatives qui pourraient être importantes pour le modèle de classification. 
-            Les corrélations positives et négatives identifiées aident à comprendre les interactions entre les différentes variables, 
-            ce qui aura un impact sur la performance du modèle prédictif.
+            
             """
         )
 
@@ -716,6 +708,9 @@ elif page == "Apprentissage profond":
 
         # Création du DataFrame à partir des données
         df = pd.DataFrame(data)
+                # Ajout de la présentation sur les différences entre LLM (Transformers) et modèles traditionnels
+                # Ajout du résumé sur les différences entre LLM (Transformers) et modèles traditionnels
+        
 
         # Affichage du tableau dans Streamlit avec légende
         st.markdown("### Modèles de fondation")
