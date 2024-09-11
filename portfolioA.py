@@ -135,6 +135,7 @@ def show_home_page():
             st.markdown(
                 """
                 <div style="margin-left: 80px; margin-top: 20px; text-align: justify; font-size: 18px;">
+                <p style="font-size: 22px; font-weight: bold; text-align: justify;">Exploiter la donnée pour en extraire de la valeur.</p>
                 En tant que Data Analyst polyvalent, je maîtrise une large gamme d'analyses : descriptives, hypothético-déductives, 
                 inférentielles et exploratoires, avec une attention particulière à la détection de biais dans les données. 
                 Mes analyses s'appuient sur des tests statistiques rigoureux et se traduisent par la rédaction de rapports détaillés, 
@@ -145,13 +146,14 @@ def show_home_page():
                 la GenAI en développant une plateforme innovante, conçue pour proposer des assistants IA personnalisés aux besoins spécifiques 
                 des utilisateurs.
                 </div>
-                """, 
-                unsafe_allow_html=True
-            )
+            """, 
+            unsafe_allow_html=True
+        )
         else:
             st.markdown(
                 """
                 <div style="margin-left: 80px; margin-top: 20px; text-align: justify; font-size: 18px;">
+                <p style="font-size: 22px; font-weight: bold; text-align: justify;">Leveraging data to extract value.</p>
                 As a versatile Data Analyst, I am proficient in a wide range of analyses: descriptive, hypothetico-deductive, 
                 inferential, and exploratory, with a particular focus on detecting biases in data. My analyses are grounded in rigorous 
                 statistical testing and result in the creation of detailed reports, interactive dashboards using BI tools such as Power BI, 
@@ -160,21 +162,22 @@ def show_home_page():
                 and unsupervised learning techniques. Currently, I am focused on integrating GenAI by developing an innovative platform 
                 designed to offer AI assistants tailored to the specific needs of users.
                 </div>
-                """, 
-                unsafe_allow_html=True
-            )
+            """, 
+            unsafe_allow_html=True
+        )
+
     
     # Afficher les logos des bibliothèques
-    st.markdown("---")
-    st.markdown(
-        "<h5 style='font-size: 16px; text-align: center; margin-bottom: 5px;'>Je programme en Python et pour la réalisation des cas d'usage de ce portfolio j'ai utlisé des librairies telles que :</h5>",
+        st.markdown("---")
+        st.markdown(
+        "<h5 style='font-size: 16px; text-align: justify; margin-bottom: 5px;'>Je programme en Python et pour la réalisation des cas d'usage de ce portfolio j'ai utlisé des librairies telles que :</h5>",
         unsafe_allow_html=True
-    )
-    display_logos()
+        )
+        display_logos()
 
 def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_test, y_test):
     st.title("Apprentissage supervisé")
-
+    st.write("**Objectif :** L'apprentissage supervisé consiste à entraîner un algorithme d'IA à estimer des valeurs futures à partir des données passées, qu'il s'agisse de biens, de services, ou de comportements.")
     # Ajout du paragraphe Cas d'usage
     st.write("**Cas d'usage :** Prédiction de la capacité d'un emprunteur à rembourser son prêt en se basant sur les données disponibles. (source du jeu de données : Kaggle.com)")
 
@@ -321,6 +324,8 @@ elif page == "Apprentissage supervisé":
 # Condition pour la page "Apprentissage non supervisé"
 elif page == "Apprentissage non supervisé":
     st.title("Apprentissage non supervisé")
+    # Ajout du paragraphe Objectif
+    st.write("**Objectif :** L'apprentissage non supervisé consiste à entraîner un algorithme d'IA à partir de données non étiquetées, afin de découvrir des structures cachées ou des regroupements dans les données, sans connaître à l'avance notre cible.")
     # Ajout du paragraphe Cas d'usage
     st.write("**Cas d'usage :** Identification des patterns dans l'écosystème de la recherche en Suisse à travers la création de clusters basés sur un jeu de données. (source du jeu données : zenodo.org)")  
     # Chargement du jeu de données spécifique à l'apprentissage non supervisé
