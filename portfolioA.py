@@ -666,7 +666,7 @@ elif page == "Apprentissage profond":
         """, unsafe_allow_html=True)
 
         # Insertion de l'image à la fin des deux tirets
-        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/AlgoML.png", caption="Illustration des principaux algorithmes de machine learning", use_column_width=True)
+        st.image("/Users/christiantchouaffe/Desktop/MonPortfolio/LLMsTrans.png", caption="Illustration des principaux algorithmes de machine learning", use_column_width=True)
         # Poursuite du texte après l'image
         st.markdown("""
             <div style="text-align: justify;">
@@ -788,7 +788,7 @@ elif page == "Apprentissage profond":
         st.markdown("### Comparaison entre Modèle de fondation et Modèle fine-tuné ou spécialisé")
         st.markdown(df.to_html(index=False), unsafe_allow_html=True)
 
-        st.image("/Users/christiantchouaffe/Desktop/MonPortfolio/LLMsTrans.png", 
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/LLMsTrans.png", 
             caption="Schéma de déploiement d'une IA basée sur un LLM", 
             use_column_width=True)
 
