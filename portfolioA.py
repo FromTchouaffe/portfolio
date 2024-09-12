@@ -666,7 +666,7 @@ elif page == "Apprentissage profond":
         """, unsafe_allow_html=True)
 
         # Insertion de l'image à la fin des deux tirets
-        st.image("/Users/christiantchouaffe/Desktop/MonPortfolio/LLMsTrans.png", caption="Illustration des principaux algorithmes de machine learning", use_column_width=True)
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/AlgoML.png", caption="Illustration des principaux algorithmes de machine learning", use_column_width=True)
         # Poursuite du texte après l'image
         st.markdown("""
             <div style="text-align: justify;">
