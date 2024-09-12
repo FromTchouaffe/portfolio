@@ -28,46 +28,45 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 # Fonction pour charger et encoder les données
 @st.cache_data
 def load_and_encode_data(file_path):
-   # Lien vers le fichier CSV brut (raw) sur GitHub
+    # Lien vers le fichier CSV brut (raw) sur GitHub
     url = "https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/loan_data_final.csv"
     # Lecture du fichier CSV depuis l'URL
     data = pd.read_csv(url)
+    
+    # Renommé la variable 'pret_non_remboursé' en 'statut_prêt'
+    data.rename(columns={'pret_non_remboursé': 'statut_prêt'}, inplace=True)
+    
+    # Modifier la valeur de la colonne 'statut_prêt' : changer 'oui' par 'non_remboursé' et 'non' par 'remboursé'
+    data['statut_prêt'] = data['statut_prêt'].replace({'oui': 'non_remboursé', 'non': 'remboursé'})
+    
     label_encoder = LabelEncoder()
     
- # Encodage des colonnes catégorielles
-    data['objet__du_pret'] = label_encoder.fit_transform(data['objet__du_pret'])
-    data['politique_de_credit'] = label_encoder.fit_transform(data['politique_de_credit'])
-    
-    return data
-
     # Encodage des colonnes catégorielles
     data['objet__du_pret'] = label_encoder.fit_transform(data['objet__du_pret'])
     data['politique_de_credit'] = label_encoder.fit_transform(data['politique_de_credit'])
     
     return data
-    
-    
 
-#Fonction pour préparer les données d'entraînement et de test
+# Fonction pour préparer les données d'entraînement et de test
 @st.cache_data
 def prepare_data(data):
-    X = data.drop(columns=['pret_non_remboursé'])
-    y = data['pret_non_remboursé'].map({'oui': 1, 'non': 0})
+    X = data.drop(columns=['statut_prêt'])
+    y = data['statut_prêt'].map({'non_remboursé': 1, 'remboursé': 0})
     
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
     
     # Combiner X_train et y_train pour faciliter le sur-échantillonnage
     train_data = pd.concat([X_train, y_train], axis=1)
     
-    majority_class = train_data[train_data['pret_non_remboursé'] == 0]
-    minority_class = train_data[train_data['pret_non_remboursé'] == 1]
+    majority_class = train_data[train_data['statut_prêt'] == 0]
+    minority_class = train_data[train_data['statut_prêt'] == 1]
     
     if not minority_class.empty:
         minority_class_upsampled = resample(minority_class, replace=True, n_samples=len(majority_class), random_state=42)
         train_data_balanced = pd.concat([majority_class, minority_class_upsampled])
         
-        X_train_balanced = train_data_balanced.drop('pret_non_remboursé', axis=1)
-        y_train_balanced = train_data_balanced['pret_non_remboursé']
+        X_train_balanced = train_data_balanced.drop('statut_prêt', axis=1)
+        y_train_balanced = train_data_balanced['statut_prêt']
         
         return X_train_balanced, X_test, y_train_balanced, y_test
     else:
@@ -83,10 +82,11 @@ def train_model(X_train, y_train, X_test, y_test):
     y_pred = model.predict(X_test)
     
     conf_matrix = confusion_matrix(y_test, y_pred)
-    class_report = classification_report(y_test, y_pred, output_dict=True)
+    class_report = classification_report(y_test, y_pred, output_dict=True, target_names=['remboursé (0)', 'non_remboursé (1)'])
     roc_auc = roc_auc_score(y_test, y_pred)
     
     return conf_matrix, class_report, roc_auc
+
 
 # Fonction pour afficher les images de logos
 def display_logos():
@@ -210,8 +210,11 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
             Les variables explicatives couvrent divers aspects tels que les objectifs des prêts, les taux d'intérêt, les mensualités, 
             le revenu annuel (logarithmé), le ratio d'endettement, le score de crédit, et l'historique de crédit de l'emprunteur.
             
-            La variable cible, <strong>pret_non_remboursé</strong>, indique si le prêt a été remboursé ou non, ce qui permet d'analyser les facteurs 
+            La variable cible, <strong>statut_prêt</strong>, indique si le prêt a été remboursé ou non, ce qui permet d'analyser les facteurs 
             contribuant au risque de non-remboursement.
+
+            Le jeu de données présente un déséquilibre de classes, avec moins d'exemples de prêts non remboursés. 
+            Il est cependant plus important de prédire avec précision si un prêt ne sera pas remboursé que l'inverse.
             </p>
             """, 
             unsafe_allow_html=True
@@ -228,11 +231,23 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
         plt.title('Matrice de corrélation des variables numériques')
         st.pyplot(plt.gcf())
         
+        # Ajouter le commentaire après les graphiques
+        st.markdown(
+            """
+            La corrélation la plus importante est fortement négative entre le taux d'intérêt et le score de crédit. 
+            Cela signifie que les individus ayant un meilleur score de crédit tendent à obtenir des taux d'intérêt plus bas, ce qui est logique dans le cadre d'une évaluation du risque par les prêteurs. 
+            Il n'y a pas d'autres corrélations significatives entre les différentes variables (au-dessus de 0,7 ou en dessous de -0,7), 
+            ce qui indique que les variables numériques du jeu de données sont en grande partie indépendantes les unes des autres.
+
+            Le score de crédit pourrait être une variable particulièrement importante pour prédire si un prêt sera remboursé, car il est fortement lié à plusieurs autres variables clés (taux d'intérêt, utilisation du crédit).
+            
+            """
+        )
         st.header("Histogrammes des variables numériques")
         plt.figure(figsize=(15, 20))
         for i, column in enumerate(numeric_columns, 1):
             plt.subplot(5, 3, i)
-            sns.histplot(data, x=column, hue='pret_non_remboursé', kde=False, multiple="stack", palette="coolwarm")
+            sns.histplot(data, x=column, hue='statut_prêt', kde=False, multiple="stack", palette="coolwarm")
             plt.title(f'Histogramme de {column}')
             plt.xlabel(column)
             plt.ylabel('Fréquence')
@@ -244,7 +259,8 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
         # Ajouter le commentaire après les graphiques
         st.markdown(
             """
-            La corrélation la plus importante est fortement négative entre le taux d'intérêt et le score de crédit. Cela signifie que les individus ayant un meilleur score de crédit tendent à obtenir des taux d'intérêt plus bas, ce qui est logique dans le cadre d'une évaluation du risque par les prêteurs. Il n'y a pas d'autres corrélations significatives entre les différentes variables (au-dessus de 0,7 ou en dessous de -0,7), ce qui indique que les variables numériques du jeu de données sont en grande partie indépendantes les unes des autres.
+            Les histogrammes des variables numériques révèlent un déséquilibre entre les prêts remboursés et non remboursés.
+            Cependant, les distributions au sein de chaque variable restent globalement similaires.
 
             
             """
@@ -252,42 +268,42 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
 
     elif section == "Prédiction":
         st.header("Prédiction")
-    
+
         if X_train_balanced is not None and y_train_balanced is not None:
             conf_matrix, class_report, roc_auc = train_model(X_train_balanced, y_train_balanced, X_test, y_test)
-            
+
             st.subheader("Résultats du Modèle")
             st.write("Matrice de confusion :")
-            st.dataframe(pd.DataFrame(conf_matrix, index=['Classe 0', 'Classe 1'], columns=['Prédit 0', 'Prédit 1']))
-            
+            st.dataframe(pd.DataFrame(conf_matrix, index=['Classe remboursé (0)', 'Classe non_remboursé (1)'], columns=['Prédit remboursé (0)', 'Prédit non_remboursé (1)']))
+
             st.write("Rapport de classification :")
             class_report_df = pd.DataFrame(class_report).transpose()
             st.dataframe(class_report_df)
-            
+
             st.write(f"Score AUC ROC : {roc_auc:.2f}")
-            
-            # Ajouter le paragraphe explicatif après les tableaux de métriques
+
+        # Ajouter le paragraphe explicatif après les tableaux de métriques
             st.markdown(
                 """
                 **Explications des métriques**
-                
+
                 - **Précision** : La précision mesure la proportion de prédictions correctes parmi toutes les prédictions faites pour une classe donnée. 
-                  Par exemple, une précision de 85% pour les prêts remboursés signifie que, parmi toutes les prédictions de prêts remboursés faites par le modèle, 85% étaient correctes.
-                
+                Par exemple, une précision de 85% pour les prêts remboursés signifie que, parmi toutes les prédictions de prêts remboursés faites par le modèle, 85% étaient correctes.
+
                 - **Rappel** : Le rappel, ou sensibilité, mesure la proportion de véritables cas positifs qui sont correctement identifiés par le modèle. 
-                  Un rappel de 98% pour les prêts remboursés signifie que le modèle a correctement identifié 98% des prêts qui ont effectivement été remboursés.
-                
+                Un rappel de 98% pour les prêts remboursés signifie que le modèle a correctement identifié 98% des prêts qui ont effectivement été remboursés.
+
                 - **F1-score** : Le F1-score est la moyenne harmonique de la précision et du rappel, offrant un équilibre entre ces deux métriques. 
-                  Il est particulièrement utile lorsque les classes sont déséquilibrées, car il pénalise à la fois les faux positifs et les faux négatifs. 
-                  Un F1-score de 91% pour les prêts remboursés indique une forte performance combinée en termes de précision et de rappel.
-                
+                Il est particulièrement utile lorsque les classes sont déséquilibrées, car il pénalise à la fois les faux positifs et les faux négatifs. 
+                Un F1-score de 91% pour les prêts remboursés indique une forte performance combinée en termes de précision et de rappel.
+
                 - **AUC-ROC** : L'AUC-ROC (Area Under the Curve - Receiver Operating Characteristic) est une métrique qui évalue la capacité du modèle à distinguer entre les classes. 
-                  Un score AUC de 0.5 indique une performance aléatoire, tandis qu'un score de 1.0 indique une distinction parfaite. 
-                  Dans notre cas, un AUC de 0.52 pour le modèle signifie qu'il a du mal à différencier efficacement entre les prêts remboursés et non remboursés.
+                Un score AUC de 0.5 indique une performance aléatoire, tandis qu'un score de 1.0 indique une distinction parfaite. 
+                Dans notre cas, un AUC de 0.52 pour le modèle signifie qu'il a du mal à différencier efficacement entre les prêts remboursés et non remboursés.
                 """
             )
-            
-            # Remplacer la conclusion actuelle par la nouvelle conclusion
+
+        # Conclusion
             st.subheader("Conclusion")
             st.write("""
             Le modèle Random Forest montre une forte capacité à prédire les prêts remboursés, mais échoue à bien identifier les prêts non remboursés, 
@@ -646,7 +662,14 @@ elif page == "Apprentissage profond":
         
             - **RandomForestClassifier** : utilisé pour prédire la probabilité de remboursement d'un prêt.
             - **KMeans** : destiné à segmenter les chercheurs en catégories pertinentes dans le cadre d'une étude de positionnement au sein de l'écosystème de la recherche en Suisse.
+            </div>
+        """, unsafe_allow_html=True)
 
+        # Insertion de l'image à la fin des deux tirets
+        st.image("/Users/christiantchouaffe/Desktop/MonPortfolio/AlgoML.png", caption="Illustration des principaux algorithmes de machine learning", use_column_width=True)
+        # Poursuite du texte après l'image
+        st.markdown("""
+            <div style="text-align: justify;">
             Ce portfolio illustre le processus d'entraînement des modèles, qui, une fois affinés, seront intégrés dans des 
             applications d'aide à la décision. Le modèle de classification permettra de déterminer l'éligibilité des clients 
             à un prêt, tandis que l'algorithme de clustering contribuera à optimiser l'intégration des chercheurs en fonction 
@@ -708,13 +731,63 @@ elif page == "Apprentissage profond":
 
         # Création du DataFrame à partir des données
         df = pd.DataFrame(data)
-                # Ajout de la présentation sur les différences entre LLM (Transformers) et modèles traditionnels
-                # Ajout du résumé sur les différences entre LLM (Transformers) et modèles traditionnels
-        
 
-        # Affichage du tableau dans Streamlit avec légende
+        # CSS pour centrer et justifier le tableau
+        table_style = """
+        <style>
+        table {
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+            text-align: center;
+        }
+        thead th {
+            text-align: center;
+        }
+        tbody td {
+            text-align: justify;
+        }
+        </style>
+        """
+        # Affichage du tableau dans Streamlit sans index
         st.markdown("### Modèles de fondation")
-        st.table(df)
+        st.markdown(df.to_html(index=False), unsafe_allow_html=True)
+
+        # Texte à afficher entre les deux tableaux avec des tirets sous forme d'astérisques
+        texte = """
+        La création d’un modèle fondationel (pré-entrainé) nécessite des ordinateurs puissants et une infrastructure spécialisée :
+        * Des serveurs puissants : processeurs rapides (CPU), nombreuses unités de traitement graphique (GPU et TPU) 
+        * Un stockage massif : systèmes de stockage capables de gérer des téraoctets (1 To équivaut à 1 million de livres de 200 à 500 pages) voire des pétaoctets de données.
+        * Des réseaux de haute performance : connexion rapide entre serveurs pour éviter la lenteur lors de la phase d’entraînement 
+        * Des logiciels et frameworks adaptés : des environnements cloud (Google Cloud, AWS, Microsoft Azure) et des frameworks (PyTorch, TensorFlow) pour traiter des quantités massives de données nécessitant des ressources computationnelles importantes.
+        * La disponibilité des données d'entraînement de haute qualité : garbage in, garbage out
+        """
+
+        # Affichage du texte
+        st.markdown(texte)
+
+        # Création des données sous forme de dictionnaire
+        data = {
+            "Critère": ["Puissance", "Temps de préparation", "Quantité de données"],
+            "Modèle de fondation": [
+                "Des milliers de CPU et GPU", 
+                "Des semaines ou des mois", 
+                "Des centaines de Go"
+             ],
+            "Modèle fine-tuné ou spécialisé": [
+                "1 CPU ou GPU", 
+                "Quelques jours", 
+                "Quelques centaines de Mo ou quelques Go"
+            ]
+        }
+
+        # Création du DataFrame
+        df = pd.DataFrame(data)
+
+        # Affichage du tableau dans Streamlit
+        st.markdown("### Comparaison entre Modèle de fondation et Modèle fine-tuné ou spécialisé")
+        st.markdown(df.to_html(index=False), unsafe_allow_html=True)
+
 
     elif section_deep_learning == "Cas d'usage":
         st.header("Chatbot pour la Suite Office")
