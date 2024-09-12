@@ -666,7 +666,7 @@ elif page == "Apprentissage profond":
         """, unsafe_allow_html=True)
 
         # Insertion de l'image à la fin des deux tirets
-        st.image("/Users/christiantchouaffe/Desktop/MonPortfolio/AlgoML.png", caption="Illustration des principaux algorithmes de machine learning", use_column_width=True)
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/AlgoML.png", caption="Illustration des principaux algorithmes de machine learning", use_column_width=True)
         # Poursuite du texte après l'image
         st.markdown("""
             <div style="text-align: justify;">
@@ -694,7 +694,7 @@ elif page == "Apprentissage profond":
         # Insertion de l'image avec une légende
         st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/IALandscape.png", 
             caption="Les LLMs dans le paysage de l'IA", 
-            use_column_width=600)
+            use_column_width=True)
 
         st.markdown("""
             <div style="text-align: justify;">
@@ -788,6 +788,18 @@ elif page == "Apprentissage profond":
         st.markdown("### Comparaison entre Modèle de fondation et Modèle fine-tuné ou spécialisé")
         st.markdown(df.to_html(index=False), unsafe_allow_html=True)
 
+        st.image("/Users/christiantchouaffe/Desktop/MonPortfolio/LLMsTrans.png", 
+            caption="Schéma de déploiement d'une IA basée sur un LLM", 
+            use_column_width=True)
+
+    
+        st.markdown("""
+            <div style="text-align: justify;">
+            Les Large Language Models (LLMs) sont des modèles de traitement du langage naturel (NLP) caractérisés par un très grand nombre de paramètres (allant de plusieurs milliards à des centaines de milliards).
+            Cette échelle leur permet de gérer des tâches complexes en capturant des relations fines dans de grandes quantités de données textuelles. Ils sont basés sur l'architecture des Transformers, 
+            qui exploitent le mécanisme d'attention pour modéliser efficacement les relations contextuelles entre les mots, même sur de longues séquences textuelles.
+            </div>
+        """, unsafe_allow_html=True)
 
     elif section_deep_learning == "Cas d'usage":
         st.header("Chatbot pour la Suite Office")
