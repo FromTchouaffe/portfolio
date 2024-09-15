@@ -692,7 +692,7 @@ elif page == "Apprentissage profond":
         """, unsafe_allow_html=True)
 
         # Insertion de l'image avec une légende
-        st.image("/Users/christiantchouaffe/Desktop/MonPortfolio/IALandscape_2.png", 
+        st.image("https://raw.githubusercontent.com/FromTchouaffe/portfolio_new/main/IALandscape_2.png", 
             caption="Les LLMs dans le paysage de l'IA", 
             use_column_width=True)
 
