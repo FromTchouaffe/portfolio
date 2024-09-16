@@ -342,31 +342,70 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
                 st.markdown("""
                 <div style="text-align: justify;">
                 <ul>
-                <li><strong>Explications des métriques</strong></li>
-            
-                <li><strong>Précision</strong> : La précision mesure la proportion de prédictions correctes parmi toutes les prédictions faites pour une classe donnée. 
-                Par exemple, une précision de 85% pour les prêts remboursés signifie que, parmi toutes les prédictions de prêts remboursés faites par le modèle, 85% étaient correctes.</li>
+                Dans la catégorie "non remboursé", qui est la classe cible de cette analyse, le modèle a correctement prédit 16 prêts (vrais positifs), mais a mal classé 291 prêts comme "remboursé" alors qu'ils étaient en réalité non remboursés (faux négatifs).
 
-                <li><strong>Rappel</strong> : Le rappel, ou sensibilité, mesure la proportion de véritables cas positifs qui sont correctement identifiés par le modèle. 
-                Un rappel de 98% pour les prêts remboursés signifie que le modèle a correctement identifié 98% des prêts qui ont effectivement été remboursés.</li>
+                Dans la catégorie "remboursé", le modèle a bien identifié 1580 prêts comme remboursés (vrais négatifs), avec seulement 29 prêts incorrectement classés comme "non remboursé" (faux positifs).
 
-                <li><strong>F1-score</strong> : Le F1-score est la moyenne harmonique de la précision et du rappel, offrant un équilibre entre ces deux métriques. 
-                Il est particulièrement utile lorsque les classes sont déséquilibrées, car il pénalise à la fois les faux positifs et les faux négatifs. 
-                Un F1-score de 91% pour les prêts remboursés indique une forte performance combinée en termes de précision et de rappel.</li>
+                Le modèle présente de bonnes performances pour la prédiction de la classe "remboursé", avec une précision de 84%, un rappel de 98% et un f1-score de 91%. En revanche, pour la classe cible des "non remboursé", les résultats sont moins satisfaisants : la précision est de 36%, le rappel est de 5% et le f1-score est de 9%.
 
-                <li><strong>AUC-ROC</strong> : L'AUC-ROC (Area Under the Curve - Receiver Operating Characteristic) est une métrique qui évalue la capacité du modèle à distinguer entre les classes. 
-                Un score AUC de 0.5 indique une performance aléatoire, tandis qu'un score de 1.0 indique une distinction parfaite. 
-                Dans notre cas, un AUC de 0.52 pour le modèle signifie qu'il a du mal à différencier efficacement entre les prêts remboursés et non remboursés.</li>
+                
+                Avec une accuracy de 83%, le Random Forest montre une capacité globale à prédire correctement les classes, mais son AUC de 52% indique qu'il distingue les classes de manière peu efficace, presque aléatoire, en particulier pour la classe "non remboursé".
+                            
+                En conclusion, bien que le modèle fonctionne bien pour identifier les prêts remboursés, il éprouve des difficultés à prédire les prêts qui ne seront pas remboursés, ce qui est pourtant l'objectif principal de cette analyse.
                 </ul>
                 </div>
             """, unsafe_allow_html=True)
 
             elif model_choice == "Decision Tree":
-                st.markdown("Le Decision Tree offre des performances similaires, mais tend à surapprendre sur les données d'entraînement.")
+                st.markdown("""
+                <div style="text-align: justify;">
+                <ul>
+                Dans la catégorie "non remboursé", qui est la classe cible de cette analyse, le modèle a correctement prédit 79 prêts (vrais positifs), tandis que 228 prêts ont été incorrectement classés comme "remboursé" alors qu'ils étaient en réalité non remboursés (faux négatifs).
+
+                Dans la catégorie "remboursé", le modèle a correctement prédit 1339 prêts (vrais négatifs), mais 270 prêts ont été incorrectement classés comme "non remboursé" (faux positifs).
+
+                Le modèle montre une performance raisonnable pour la prédiction de la classe "remboursé", avec une précision de 85%, un rappel de 83%, et un f1-score de 84%. Cependant, les résultats sont plus modestes pour la classe cible des "non remboursé", avec une précision de 23%, un rappel de 26%, et un f1-score de 24%.
+
+                Avec une accuracy de 74%, le Decision Tree montre une performance correcte pour la prédiction globale. Toutefois, avec un AUC de 54%, sa capacité à distinguer efficacement les classes reste faible, surtout pour la classe "non remboursé".
+                En conclusion, bien que ce modèle soit relativement efficace pour identifier les prêts remboursés, il peine à prédire les prêts non remboursés, ce qui est pourtant crucial pour cette analyse.
+
+                </ul>
+                </div>
+                """, unsafe_allow_html=True)
+
+                
             elif model_choice == "Gradient Boosting":
-                st.markdown("Le Gradient Boosting améliore légèrement la prédiction des prêts non remboursés grâce à sa capacité d'ensemble.")
+                st.markdown("""
+                <div style="text-align: justify;">
+                <ul>
+                Dans la catégorie "non remboursé", le modèle a correctement prédit 186 prêts (vrais positifs), tandis que 121 prêts ont été incorrectement classés comme "remboursé" alors qu'ils étaient non remboursés (faux négatifs).
+
+                Dans la catégorie "remboursé", le modèle a bien prédit 1099 prêts (vrais négatifs), mais 510 prêts ont été incorrectement classés comme "non remboursé" (faux positifs).
+
+                Le modèle présente de bonnes performances pour la classe "remboursé", avec une précision de 90%, un rappel de 68%, et un f1-score de 78%. Cependant, pour la classe cible des "non remboursé", les performances sont plus modestes, avec une précision de 27%, un rappel de 61%, et un f1-score de 37%.
+
+                Avec une accuracy de 67%, le Gradient Boosting montre une capacité modérée à prédire les classes. Son AUC de 64% reflète une meilleure distinction entre les classes, notamment pour identifier les prêts "non remboursé".
+
+                Bien que ce modèle montre une amélioration notable dans la détection des non remboursé par rapport aux autres modèles, il reste des faiblesses dans la prédiction des prêts non remboursés.
+                </ul>
+                </div>
+                """, unsafe_allow_html=True)
             elif model_choice == "Régression Logistique":
-                st.markdown("La régression logistique est un modèle simple mais robuste, avec une bonne capacité à prédire les prêts remboursés, bien que la prédiction des non remboursés soit limitée.")
+                st.markdown("""
+                <div style="text-align: justify;">
+                <ul>
+                Dans la catégorie "non remboursé", le modèle a correctement prédit 174 prêts (vrais positifs), tandis que 133 prêts ont été incorrectement classés comme "remboursé" (faux négatifs).
+
+                Dans la catégorie "remboursé", le modèle a bien prédit 940 prêts (vrais négatifs), mais 669 prêts ont été incorrectement classés comme "non remboursé" (faux positifs).
+
+                Le modèle montre des performances modestes pour la classe "remboursé", avec une précision de 88%, un rappel de 58%, et un f1-score de 70%. Cependant, pour la classe cible des "non remboursé", les résultats sont moins satisfaisants, avec une précision de 21%, un rappel de 57%, et un f1-score de 30%.
+
+                Avec une accuracy de 58%, la régression logistique a une performance limitée. Son AUC de 57% montre une capacité modérée à distinguer les classes, mais reste insuffisante pour bien prédire les "non remboursé".
+
+                Bien que le modèle parvienne à identifier une partie des non remboursé, il reste limité dans sa capacité à prédire efficacement les prêts non remboursés, avec une performance globale modérée.
+                </ul>
+                </div>
+                """, unsafe_allow_html=True)
          
         
 
