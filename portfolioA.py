@@ -4,6 +4,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.ensemble import GradientBoostingClassifier
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.utils import resample
 from sklearn.ensemble import RandomForestClassifier
@@ -269,49 +272,103 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
     elif section == "Prédiction":
         st.header("Prédiction")
 
-        if X_train_balanced is not None and y_train_balanced is not None:
-            conf_matrix, class_report, roc_auc = train_model(X_train_balanced, y_train_balanced, X_test, y_test)
+        # Présentation des algorithmes après les résultats de prédiction
+        st.subheader("Présentation des Algorithmes")
+        st.markdown("""
+            <div style="text-align: justify;">
+            <ul>
+            <li><strong>Random Forest</strong> : algorithme d'apprentissage supervisé qui fonctionne en construisant plusieurs arbres de décision sur différents échantillons de données. 
+            Chacun de ces arbres fait des prédictions, et le Random Forest combine les prédictions des arbres pour donner une réponse finale.</li>
 
-            st.subheader("Résultats du Modèle")
+            <li><strong>Decision Tree</strong> : un modèle simple qui divise les données en groupes basés sur des conditions. Chaque "nœud" dans l'arbre représente une décision sur une variable, et chaque "branche" mène à une prédiction.</li>
+
+            <li><strong>Gradient Boosting</strong> : algorithme plus avancé qui crée une série d'arbres de décision, où chaque arbre corrige les erreurs du précédent. À chaque étape, l'algorithme se "booste" pour améliorer la précision.</li>
+
+            <li><strong>Régression Logistique</strong> : modèle statistique simple, utilisé pour prédire des résultats binaires (deux classes, comme "oui/non" ou "remboursé/non remboursé"). Contrairement à la régression linéaire, qui prédit des valeurs continues, la régression logistique prédit des probabilités.</li>
+            </ul>
+            </div>
+        """, unsafe_allow_html=True)
+
+
+        
+    # Menu déroulant pour choisir le modèle à tester
+        model_choice = st.selectbox(
+            "Choisissez un modèle à tester",
+            ["Random Forest", "Decision Tree", "Gradient Boosting", "Régression Logistique"]
+        )
+
+    # Entraîner et afficher les résultats selon le modèle choisi
+        if X_train_balanced is not None and y_train_balanced is not None:
+            if model_choice == "Random Forest":
+            # Entraîner le Random Forest avec les données équilibrées
+                model = RandomForestClassifier(class_weight='balanced', random_state=42)
+                model.fit(X_train_balanced, y_train_balanced)
+                y_pred = model.predict(X_test)
+            elif model_choice == "Decision Tree":
+            # Entraîner le Decision Tree avec les données équilibrées
+                dt_classifier = DecisionTreeClassifier(random_state=42)
+                dt_classifier.fit(X_train_balanced, y_train_balanced)
+                y_pred = dt_classifier.predict(X_test)
+            elif model_choice == "Gradient Boosting":
+            # Entraîner le Gradient Boosting avec les données équilibrées
+                gb_classifier = GradientBoostingClassifier(random_state=42)
+                gb_classifier.fit(X_train_balanced, y_train_balanced)
+                y_pred = gb_classifier.predict(X_test)
+            elif model_choice == "Régression Logistique":
+            # Entraîner la Régression Logistique avec les données équilibrées
+                logreg_classifier = LogisticRegression(random_state=42, max_iter=1000)
+                logreg_classifier.fit(X_train_balanced, y_train_balanced)
+                y_pred = logreg_classifier.predict(X_test)
+
+        # Générer la matrice de confusion et le rapport de classification
+            conf_matrix = confusion_matrix(y_test, y_pred)
+            class_report = classification_report(y_test, y_pred, output_dict=True, target_names=['Remboursé', 'Non remboursé'])
+            roc_auc = roc_auc_score(y_test, y_pred)
+
+        # Afficher les résultats sous forme de tableau
+            st.subheader(f"Résultats pour {model_choice}")
             st.write("Matrice de confusion :")
-            st.dataframe(pd.DataFrame(conf_matrix, index=['Classe remboursé (0)', 'Classe non_remboursé (1)'], columns=['Prédit remboursé (0)', 'Prédit non_remboursé (1)']))
+            conf_matrix_df = pd.DataFrame(conf_matrix, index=['Remboursé', 'Non remboursé'], columns=['Prédit Remboursé', 'Prédit Non remboursé'])
+            st.dataframe(conf_matrix_df)
 
             st.write("Rapport de classification :")
-            class_report_df = pd.DataFrame(class_report).transpose()
+            class_report_df = pd.DataFrame(class_report).transpose().apply(lambda x: np.round(x, 2))
             st.dataframe(class_report_df)
 
             st.write(f"Score AUC ROC : {roc_auc:.2f}")
 
-        # Ajouter le paragraphe explicatif après les tableaux de métriques
-            st.markdown(
-                """
-                **Explications des métriques**
+        # Ajouter un commentaire spécifique pour chaque modèle
+            if model_choice == "Random Forest":
+                st.markdown("""
+                <div style="text-align: justify;">
+                <ul>
+                <li><strong>Explications des métriques</strong></li>
+            
+                <li><strong>Précision</strong> : La précision mesure la proportion de prédictions correctes parmi toutes les prédictions faites pour une classe donnée. 
+                Par exemple, une précision de 85% pour les prêts remboursés signifie que, parmi toutes les prédictions de prêts remboursés faites par le modèle, 85% étaient correctes.</li>
 
-                - **Précision** : La précision mesure la proportion de prédictions correctes parmi toutes les prédictions faites pour une classe donnée. 
-                Par exemple, une précision de 85% pour les prêts remboursés signifie que, parmi toutes les prédictions de prêts remboursés faites par le modèle, 85% étaient correctes.
+                <li><strong>Rappel</strong> : Le rappel, ou sensibilité, mesure la proportion de véritables cas positifs qui sont correctement identifiés par le modèle. 
+                Un rappel de 98% pour les prêts remboursés signifie que le modèle a correctement identifié 98% des prêts qui ont effectivement été remboursés.</li>
 
-                - **Rappel** : Le rappel, ou sensibilité, mesure la proportion de véritables cas positifs qui sont correctement identifiés par le modèle. 
-                Un rappel de 98% pour les prêts remboursés signifie que le modèle a correctement identifié 98% des prêts qui ont effectivement été remboursés.
-
-                - **F1-score** : Le F1-score est la moyenne harmonique de la précision et du rappel, offrant un équilibre entre ces deux métriques. 
+                <li><strong>F1-score</strong> : Le F1-score est la moyenne harmonique de la précision et du rappel, offrant un équilibre entre ces deux métriques. 
                 Il est particulièrement utile lorsque les classes sont déséquilibrées, car il pénalise à la fois les faux positifs et les faux négatifs. 
-                Un F1-score de 91% pour les prêts remboursés indique une forte performance combinée en termes de précision et de rappel.
+                Un F1-score de 91% pour les prêts remboursés indique une forte performance combinée en termes de précision et de rappel.</li>
 
-                - **AUC-ROC** : L'AUC-ROC (Area Under the Curve - Receiver Operating Characteristic) est une métrique qui évalue la capacité du modèle à distinguer entre les classes. 
+                <li><strong>AUC-ROC</strong> : L'AUC-ROC (Area Under the Curve - Receiver Operating Characteristic) est une métrique qui évalue la capacité du modèle à distinguer entre les classes. 
                 Un score AUC de 0.5 indique une performance aléatoire, tandis qu'un score de 1.0 indique une distinction parfaite. 
-                Dans notre cas, un AUC de 0.52 pour le modèle signifie qu'il a du mal à différencier efficacement entre les prêts remboursés et non remboursés.
-                """
-            )
+                Dans notre cas, un AUC de 0.52 pour le modèle signifie qu'il a du mal à différencier efficacement entre les prêts remboursés et non remboursés.</li>
+                </ul>
+                </div>
+            """, unsafe_allow_html=True)
 
-        # Conclusion
-            st.subheader("Conclusion")
-            st.write("""
-            Le modèle Random Forest montre une forte capacité à prédire les prêts remboursés, mais échoue à bien identifier les prêts non remboursés, 
-            qui sont pourtant critiques pour la prise de décision. Ce problème est accentué par le déséquilibre des classes dans le jeu de données. 
-            Pour améliorer les performances, il est recommandé d'ajuster les poids de classe, d'utiliser des techniques de rééchantillonnage, 
-            ou d'explorer des modèles alternatifs plus adaptés à la gestion de ce déséquilibre.
-            """)
-
+            elif model_choice == "Decision Tree":
+                st.markdown("Le Decision Tree offre des performances similaires, mais tend à surapprendre sur les données d'entraînement.")
+            elif model_choice == "Gradient Boosting":
+                st.markdown("Le Gradient Boosting améliore légèrement la prédiction des prêts non remboursés grâce à sa capacité d'ensemble.")
+            elif model_choice == "Régression Logistique":
+                st.markdown("La régression logistique est un modèle simple mais robuste, avec une bonne capacité à prédire les prêts remboursés, bien que la prédiction des non remboursés soit limitée.")
+         
+        
 
 
 # Charger les données
