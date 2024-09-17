@@ -459,7 +459,7 @@ elif page == "Apprentissage non supervisé":
         info = info.astype(str)
         
         # Centrer le tableau en utilisant Streamlit
-        st.markdown("<div style='text-align: center;'>Informations sur les variables du dataset :</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: justify;'>Informations sur les variables du dataset :</div>", unsafe_allow_html=True)
         st.dataframe(info)
 
         # Ajout du commentaire en dessous du tableau
