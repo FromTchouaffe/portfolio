@@ -201,7 +201,7 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
         info = info.astype(str)
         
         # Centrer le tableau en utilisant Streamlit
-        st.markdown("<div style='text-align: center;'>Informations sur les variables du dataset :</div>", unsafe_allow_html=True)
+        st.markdown("<div style='text-align: justify;'>Informations sur les variables du dataset :</div>", unsafe_allow_html=True)
         st.dataframe(info)
 
         # Ajouter le texte en dessous dans un paragraphe simple et justifié
