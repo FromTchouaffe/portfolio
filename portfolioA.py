@@ -342,11 +342,11 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
                 st.markdown("""
                 <div style="text-align: justify;">
                 <ul>
-                Dans la catégorie "non remboursé", qui est la classe cible de cette analyse, le modèle a correctement prédit 16 prêts (vrais positifs), mais a mal classé 291 prêts comme "remboursé" alors qu'ils étaient en réalité non remboursés (faux négatifs).
+                Dans la catégorie "non remboursé", qui est la classe cible de cette analyse, le modèle a correctement prédit 19 prêts (vrais positifs), mais a mal classé 288 prêts comme "remboursé" alors qu'ils étaient en réalité non remboursés (faux négatifs).
 
-                Dans la catégorie "remboursé", le modèle a bien identifié 1580 prêts comme remboursés (vrais négatifs), avec seulement 29 prêts incorrectement classés comme "non remboursé" (faux positifs).
+                Dans la catégorie "remboursé", le modèle a bien identifié 1574 prêts comme remboursés (vrais négatifs), avec seulement 35 prêts incorrectement classés comme "non remboursé" (faux positifs).
 
-                Le modèle présente de bonnes performances pour la prédiction de la classe "remboursé", avec une précision de 84%, un rappel de 98% et un f1-score de 91%. En revanche, pour la classe cible des "non remboursé", les résultats sont moins satisfaisants : la précision est de 36%, le rappel est de 5% et le f1-score est de 9%.
+                Le modèle présente de bonnes performances pour la prédiction de la classe "remboursé", avec une précision de 85%, un rappel de 98% et un f1-score de 91%. En revanche, pour la classe cible des "non remboursé", les résultats sont moins satisfaisants : la précision est de 35%, le rappel est de 6% et le f1-score est de 11%.
 
                 
                 Avec une accuracy de 83%, le Random Forest montre une capacité globale à prédire correctement les classes, mais son AUC de 52% indique qu'il distingue les classes de manière peu efficace, presque aléatoire, en particulier pour la classe "non remboursé".
@@ -360,13 +360,13 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
                 st.markdown("""
                 <div style="text-align: justify;">
                 <ul>
-                Dans la catégorie "non remboursé", qui est la classe cible de cette analyse, le modèle a correctement prédit 79 prêts (vrais positifs), tandis que 228 prêts ont été incorrectement classés comme "remboursé" alors qu'ils étaient en réalité non remboursés (faux négatifs).
+                Dans la catégorie "non remboursé", qui est la classe cible de cette analyse, le modèle a correctement prédit 72 prêts (vrais positifs), tandis que 255 prêts ont été incorrectement classés comme "remboursé" alors qu'ils étaient en réalité non remboursés (faux négatifs).
 
-                Dans la catégorie "remboursé", le modèle a correctement prédit 1339 prêts (vrais négatifs), mais 270 prêts ont été incorrectement classés comme "non remboursé" (faux positifs).
+                Dans la catégorie "remboursé", le modèle a correctement prédit 1365 prêts (vrais négatifs), mais 244 prêts ont été incorrectement classés comme "non remboursé" (faux positifs).
 
-                Le modèle montre une performance raisonnable pour la prédiction de la classe "remboursé", avec une précision de 85%, un rappel de 83%, et un f1-score de 84%. Cependant, les résultats sont plus modestes pour la classe cible des "non remboursé", avec une précision de 23%, un rappel de 26%, et un f1-score de 24%.
+                Le modèle montre une performance raisonnable pour la prédiction de la classe "remboursé", avec une précision, un rappel et un f1-score de 85%. Cependant, les résultats sont plus modestes pour la classe cible des "non remboursé", avec une précision, un rappel et un f1-score de 23%.
 
-                Avec une accuracy de 74%, le Decision Tree montre une performance correcte pour la prédiction globale. Toutefois, avec un AUC de 54%, sa capacité à distinguer efficacement les classes reste faible, surtout pour la classe "non remboursé".
+                Avec une accuracy de 75%, le Decision Tree montre une performance correcte pour la prédiction globale. Toutefois, avec un AUC de 54%, sa capacité à distinguer efficacement les classes reste faible, surtout pour la classe "non remboursé".
                 En conclusion, bien que ce modèle soit relativement efficace pour identifier les prêts remboursés, il peine à prédire les prêts non remboursés, ce qui est pourtant crucial pour cette analyse.
 
                 </ul>
@@ -378,13 +378,13 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
                 st.markdown("""
                 <div style="text-align: justify;">
                 <ul>
-                Dans la catégorie "non remboursé", le modèle a correctement prédit 186 prêts (vrais positifs), tandis que 121 prêts ont été incorrectement classés comme "remboursé" alors qu'ils étaient non remboursés (faux négatifs).
+                Dans la catégorie "non remboursé", le modèle a correctement prédit 159 prêts (vrais positifs), tandis que 148 prêts ont été incorrectement classés comme "remboursé" alors qu'ils étaient non remboursés (faux négatifs).
 
-                Dans la catégorie "remboursé", le modèle a bien prédit 1099 prêts (vrais négatifs), mais 510 prêts ont été incorrectement classés comme "non remboursé" (faux positifs).
+                Dans la catégorie "remboursé", le modèle a bien prédit 1130 prêts (vrais négatifs), mais 479 prêts ont été incorrectement classés comme "non remboursé" (faux positifs).
 
-                Le modèle présente de bonnes performances pour la classe "remboursé", avec une précision de 90%, un rappel de 68%, et un f1-score de 78%. Cependant, pour la classe cible des "non remboursé", les performances sont plus modestes, avec une précision de 27%, un rappel de 61%, et un f1-score de 37%.
+                Le modèle présente de bonnes performances pour la classe "remboursé", avec une précision de 98%, un rappel de 70%, et un f1-score de 78%. Cependant, pour la classe cible des "non remboursé", les performances sont plus modestes, avec une précision de 25%, un rappel de 52%, et un f1-score de 34%.
 
-                Avec une accuracy de 67%, le Gradient Boosting montre une capacité modérée à prédire les classes. Son AUC de 64% reflète une meilleure distinction entre les classes, notamment pour identifier les prêts "non remboursé".
+                Avec une accuracy de 67%, le Gradient Boosting montre une capacité modérée à prédire les classes. Son AUC de 61% reflète une meilleure distinction entre les classes, notamment pour identifier les prêts "non remboursé".
 
                 Bien que ce modèle montre une amélioration notable dans la détection des non remboursé par rapport aux autres modèles, il reste des faiblesses dans la prédiction des prêts non remboursés.
                 </ul>
@@ -394,13 +394,13 @@ def show_supervised_learning_page(data, X_train_balanced, y_train_balanced, X_te
                 st.markdown("""
                 <div style="text-align: justify;">
                 <ul>
-                Dans la catégorie "non remboursé", le modèle a correctement prédit 174 prêts (vrais positifs), tandis que 133 prêts ont été incorrectement classés comme "remboursé" (faux négatifs).
+                Dans la catégorie "non remboursé", le modèle a correctement prédit 166 prêts (vrais positifs), tandis que 141 prêts ont été incorrectement classés comme "remboursé" (faux négatifs).
 
-                Dans la catégorie "remboursé", le modèle a bien prédit 940 prêts (vrais négatifs), mais 669 prêts ont été incorrectement classés comme "non remboursé" (faux positifs).
+                Dans la catégorie "remboursé", le modèle a bien prédit 1061 prêts (vrais négatifs), mais 548 prêts ont été incorrectement classés comme "non remboursé" (faux positifs).
 
-                Le modèle montre des performances modestes pour la classe "remboursé", avec une précision de 88%, un rappel de 58%, et un f1-score de 70%. Cependant, pour la classe cible des "non remboursé", les résultats sont moins satisfaisants, avec une précision de 21%, un rappel de 57%, et un f1-score de 30%.
+                Le modèle montre des performances modestes pour la classe "remboursé", avec une précision de 88%, un rappel de 66%, et un f1-score de 75%. Cependant, pour la classe cible des "non remboursé", les résultats sont moins satisfaisants, avec une précision de 23%, un rappel de 54%, et un f1-score de 33%.
 
-                Avec une accuracy de 58%, la régression logistique a une performance limitée. Son AUC de 57% montre une capacité modérée à distinguer les classes, mais reste insuffisante pour bien prédire les "non remboursé".
+                Avec une accuracy de 64%, la régression logistique a une performance limitée. Son AUC de 60% montre une capacité modérée à distinguer les classes, mais reste insuffisante pour bien prédire les "non remboursé".
 
                 Bien que le modèle parvienne à identifier une partie des non remboursé, il reste limité dans sa capacité à prédire efficacement les prêts non remboursés, avec une performance globale modérée.
                 </ul>
